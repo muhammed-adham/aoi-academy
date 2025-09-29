@@ -1,0 +1,125 @@
+<!-- Courses Page -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AOI Academy</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="./assets/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="header"></div>
+
+    <div id="courses-page" class="page ">
+        <div class="page-header">
+            <div class="container">
+                <h1 class="page-title">Our Courses</h1>
+                <p class="page-subtitle">Comprehensive training programs designed for your success</p>
+            </div>
+        </div>
+
+        <section class="section">
+            <div class="container">
+                <div class="row g-4" id="courses_container">
+                    <!-- Courses will be dynamically inserted here -->
+                </div>
+            </div>
+    </div>
+
+    <div id="footer"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="./assets/main.js"></script>
+
+    <!-- // Courses data -->
+    <script>
+        const coursesData = [
+            {
+                id: 1,
+                image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                title: "Advanced Leadership Training",
+                description: "Develop essential leadership skills including strategic thinking, team management, and organizational development. Perfect for managers and executives.",
+                duration: "12 Weeks",
+                price: 1200
+            },
+            {
+                id: 2,
+                image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                title: "Project Management Professional",
+                description: "Comprehensive PMP certification preparation covering project lifecycle, methodologies, risk management, and stakeholder communication",
+                duration: "14 Weeks",
+                price: 1300
+            },
+            {
+                id: 3,
+                image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                title: "Data Analytics & Visualization",
+                description: "Master data analysis techniques, statistical methods, and visualization tools including Python, R, and Tableau for data-driven decision making.",
+                duration: "16 Weeks",
+                price: 1500
+            },
+            {
+                id: 4,
+                image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                title: "Financial Analysis & Modeling",
+                description: "Advanced financial modeling techniques, valuation methods, and investment analysis for finance professionals and analysts.",
+                duration: "12 Weeks",
+                price: 1100
+            },
+            {
+                id: 5,
+                image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                title: "Digital Marketing Mastery",
+                description: "Gain expertise in digital marketing strategies including SEO, PPC, social media, and content marketing to drive online engagement and conversions.",
+                duration: "10 Weeks",
+                price: 1000
+            },
+            {
+                id: 6,
+                image: "https://images.unsplash.com/photo-1516321497487-e288fb19713f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                title: "Executive Communication Skills",
+                description: "Master public speaking, presentation skills, negotiation techniques, and interpersonal communication for executive success.",
+                duration: "8 Weeks",
+                price: 800
+            }
+        ]
+
+        function renderCourses(courses) {
+            const container = document.getElementById('courses_container');
+            container.innerHTML = '';
+
+            courses.forEach(course => {
+                const courseCard = document.createElement('div');
+                courseCard.className = 'col-lg-4 col-md-6'; ``
+                courseCard.innerHTML = `
+                    <div class="card card-custom">
+                        <img src="${course.image}" class="card-img-top" alt="${course.title}">
+                        <div class="card-body">
+                            <h5 class="card-title">${course.title}</h5>
+                            <p class="card-text">${course.description}</p>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="badge bg-primary-custom">${course.duration}</span>
+                                <span class="text-primary-custom fw-bold">$${course.price}</span>
+                            </div>
+                            <button class="btn btn-card w-100" onclick="handleCTAClick('course', '${course.id}')">
+                                Enroll Now <i class="fas fa-arrow-right ms-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(courseCard);
+            })
+        }
+
+        renderCourses(coursesData)
+    </script>
+</body>
+
+</html>

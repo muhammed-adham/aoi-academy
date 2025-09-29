@@ -1,0 +1,129 @@
+<!-- Room Booking Form -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AOI Academy</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="./assets/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="header"></div>
+
+    <div id="room-booking-page" class="page ">
+        <div class="page-header">
+            <div class="container">
+                <h1 class="page-title">Room Booking</h1>
+                <p class="page-subtitle">Reserve your preferred room or lab</p>
+            </div>
+        </div>
+
+        <section class="section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="form-custom">
+                            <h3 class="text-primary-custom mb-4">Booking Information</h3>
+                            <form onsubmit="handleRoomBooking(event)">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="bookingFirstName" class="form-label">First Name</label>
+                                        <input type="text" class="form-control" id="bookingFirstName" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="bookingLastName" class="form-label">Last Name</label>
+                                        <input type="text" class="form-control" id="bookingLastName" required>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="bookingEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="bookingEmail" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="bookingPhone" class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control" id="bookingPhone" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="company" class="form-label">Company/Organization</label>
+                                    <input type="text" class="form-control" id="company" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="selectedRoom" class="form-label">Selected Room/Lab</label>
+                                    <input type="text" class="form-control" id="selectedRoom" readonly>
+                                </div>
+
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="bookingDate" class="form-label">Booking Date</label>
+                                        <input type="date" class="form-control" id="bookingDate" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="bookingTime" class="form-label">Start Time</label>
+                                        <input type="time" class="form-control" id="bookingTime" required>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="duration" class="form-label">Duration (hours)</label>
+                                    <select class="form-control" id="duration" required>
+                                        <option value="">Select duration</option>
+                                        <option value="1">1 hour</option>
+                                        <option value="2">2 hours</option>
+                                        <option value="4">4 hours</option>
+                                        <option value="8">8 hours (full day)</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="eventPurpose" class="form-label">Purpose of Event</label>
+                                    <select class="form-control" id="eventPurpose" required>
+                                        <option value="">Select purpose</option>
+                                        <option value="conference">Conference</option>
+                                        <option value="workshop">Workshop</option>
+                                        <option value="training">Training Session</option>
+                                        <option value="meeting">Meeting</option>
+                                        <option value="seminar">Seminar</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="attendees" class="form-label">Expected Number of Attendees</label>
+                                    <input type="number" class="form-control" id="attendees" min="1" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="specialRequests" class="form-label">Special Requests (Optional)</label>
+                                    <textarea class="form-control" id="specialRequests" rows="3"
+                                        placeholder="Any special equipment or setup requirements"></textarea>
+                                </div>
+
+                                <button type="submit" class="btn-card w-100">
+                                    Submit Booking Request <i class="fas fa-calendar-check ms-2"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="footer"></div>
+    
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="./assets/main.js"></script>
+</body>
+
+</html>

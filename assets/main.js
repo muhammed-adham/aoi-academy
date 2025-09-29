@@ -55,7 +55,7 @@ const translations = {
         certifiedProgramsDesc: "Receive industry-recognized certifications upon course completion.",
 
         // Footer
-        tagline:"Empowering professionals with world-class training and development programs for over 25 years.",
+        tagline: "Empowering professionals with world-class training and development programs for over 25 years.",
         quickLinks: "Quick Links",
         services: "Services",
         contactInfo: "Contact Info",
@@ -113,7 +113,7 @@ const translations = {
         certifiedProgramsDesc: "احصل على شهادات معترف بها في الصناعة عند إتمام الدورة.",
 
         // Footer
-        tagline:"تمكين المحترفين ببرامج تدريب وتطوير عالمية المستوى منذ أكثر من 25 عامًا.",
+        tagline: "تمكين المحترفين ببرامج تدريب وتطوير عالمية المستوى منذ أكثر من 25 عامًا.",
         quickLinks: "روابط سريعة",
         services: "الخدمات",
         contactInfo: "معلومات التواصل",
@@ -233,8 +233,8 @@ function updatePageContent() {
             title.textContent = footerTexts[index];
         }
     });
-    
-    const footerTagline= document.querySelectorAll('.footer p');
+
+    const footerTagline = document.querySelectorAll('.footer p');
     footerTagline[0].textContent = t.tagline;
 
     // Update footer links
@@ -257,143 +257,19 @@ function updatePageContent() {
     }
 }
 
-// Page navigation
-function showPage(pageId) {
-    // Hide all pages
-    document.querySelectorAll('.page').forEach(page => {
-        page.classList.add('hidden');
-    });
-
-    // Show selected page
-    document.getElementById(pageId + '-page').classList.remove('hidden');
-
-    // Update nav active state
-    document.querySelectorAll('.nav-link').forEach(link => {
-        link.classList.remove('active');
-    });
-
-    if (pageId === 'home') {
-        document.querySelector('.navbar-nav .nav-link').classList.add('active');
-    } else {
-        const activeLink = document.querySelector(`[onclick="showPage('${pageId}')"]`);
-        if (activeLink && activeLink.classList.contains('nav-link')) {
-            activeLink.classList.add('active');
-        }
-    }
-
-    // Update URL without page reload
-    const newUrl = pageId === 'home' ? '/' : `/${pageId}`;
-    history.pushState({ page: pageId }, '', newUrl);
-
-
-    // Scroll to top
-    window.scrollTo(0, 0);
-}
-
-/* ===== URL Handler Start ===== */
-// Handle browser back/forward buttons
-window.addEventListener('popstate', function (event) {
-    const pageId = event.state ? event.state.page : getPageFromUrl();
-    showPageWithoutHistoryUpdate(pageId);
-});
-
-// Get page ID from current URL
-function getPageFromUrl() {
-    const path = window.location.pathname;
-    if (path === '/' || path === '') {
-        return 'home';
-    }
-    return path.substring(1); // Remove leading slash
-}
-
-// Show page without updating browser history (for back/forward navigation)
-function showPageWithoutHistoryUpdate(pageId) {
-    // Hide all pages
-    document.querySelectorAll('.page').forEach(page => {
-        page.classList.add('hidden');
-    });
-
-    // Show selected page
-    const targetPage = document.getElementById(pageId + '-page');
-    if (targetPage) {
-        targetPage.classList.remove('hidden');
-    } else {
-        // Fallback to home if page doesn't exist
-        document.getElementById('home-page').classList.remove('hidden');
-    }
-
-    // Update nav active state
-    document.querySelectorAll('.nav-link').forEach(link => {
-        link.classList.remove('active');
-    });
-
-    if (pageId === 'home') {
-        document.querySelector('.navbar-nav .nav-link').classList.add('active');
-    } else {
-        const activeLink = document.querySelector(`[onclick="showPage('${pageId}')"]`);
-        if (activeLink && activeLink.classList.contains('nav-link')) {
-            activeLink.classList.add('active');
-        }
-    }
-
-    // Scroll to top
-    window.scrollTo(0, 0);
-}
-
-// Initialize the correct page on load
-document.addEventListener('DOMContentLoaded', function () {
-    const initialPage = getPageFromUrl();
-    showPageWithoutHistoryUpdate(initialPage);
-});
-
-// This allows users to right-click and open in new tab/window
-function updateNavLinks() {
-    document.querySelectorAll('[onclick*="showPage"]').forEach(link => {
-        const match = link.getAttribute('onclick').match(/showPage\('(.+?)'\)/);
-        if (match) {
-            const pageId = match[1];
-            const href = pageId === 'home' ? '/' : `/${pageId}`;
-            link.setAttribute('href', href);
-
-            // Prevent default link behavior and use our routing
-            link.addEventListener('click', function (e) {
-                e.preventDefault();
-                showPage(pageId);
-            });
-        }
-    });
-}
-/* ===== URL Handler End ===== */
-
 // Handle CTA clicks (Check authentication)
-function handleCTAClick(type, item) {
-    if (!isLoggedIn) {
-        showPage('signin');
-        return;
-    }
+function handleCTAClick(type, identifier) {
+    // if (!isLoggedIn) {
+    //     showPage('signin');
+    //     return;
+    // }
 
     if (type === 'course') {
-        selectedCourse = getCourseTitle(item);
-        document.getElementById('selectedCourse').value = selectedCourse;
-        showPage('course-enrollment');
+        window.location.href = `course_enrollment.html?courseTitle=${identifier}`;
     } else if (type === 'room') {
-        selectedRoom = getRoomTitle(item);
-        document.getElementById('selectedRoom').value = selectedRoom;
-        showPage('room-booking');
-    }
-}
+        window.location.href = `room_page.html?room=${identifier}`;
 
-// Get course title by ID
-function getCourseTitle(courseId) {
-    const courseTitles = {
-        'leadership': 'Advanced Leadership Training',
-        'data-analytics': 'Data Analytics & Visualization',
-        'digital-marketing': 'Digital Marketing Mastery',
-        'project-management': 'Project Management Professional',
-        'financial-analysis': 'Financial Analysis & Modeling',
-        'communication': 'Executive Communication Skills'
-    };
-    return courseTitles[courseId] || 'Selected Course';
+    }
 }
 
 // Get room title by ID
@@ -415,7 +291,7 @@ function toggleUserType() {
     const outsideFields = document.getElementById('outsideCompanyFields');
 
     if (switchInput.checked) {
-        label.textContent = 'Outside Company';
+        label.textContent = 'Outside AOI';
         insideFields.classList.add('hidden');
         outsideFields.classList.remove('hidden');
 
@@ -510,11 +386,11 @@ function updateAuthUI() {
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', function () {
-    showPage('home');
+    // showPage('home');
 
     // Initialize language
-    currentLanguage = 'en';
-    updatePageContent();
+    // currentLanguage = 'en';
+    // updatePageContent();
 
     // Add smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -530,30 +406,68 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-// Add scroll animations
-// const observerOptions = {
-//     threshold: 0.1,
-//     rootMargin: '0px 0px -50px 0px'
-// };
+// Function to load components (header & footer) Run after DOM is ready
+document.addEventListener("DOMContentLoaded", function () {
+    // Load header
+    fetch("components/header.html")
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("header").innerHTML = data;
+        })
+        .catch(error => console.error("Error loading header:", error));
 
-// const observer = new IntersectionObserver(function (entries) {
-//     entries.forEach(entry => {
-//         if (entry.isIntersecting) {
-//             entry.target.classList.add('fade-in-up');
-//         }
-//     });
-// }, observerOptions);
+    // Load footer
+    fetch("components/footer.html")
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("footer").innerHTML = data;
+        })
+        .catch(error => console.error("Error loading footer:", error));
 
-// // Observe elements for animation
-// document.addEventListener('DOMContentLoaded', function () {
-//     document.querySelectorAll('.card-custom, .instructor-card, .stat-item').forEach(el => {
-//         observer.observe(el);
-//     });
-// });
+    // Add reading progress indicator
+    const progressBar = document.createElement('div');
+    progressBar.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 0%;
+                height: 3px;
+                background: var(--secondary-color);
+                z-index: 9999;
+                transition: width 0.1s ease;
+            `;
+    document.body.appendChild(progressBar);
 
-// // Observe elements for animation
-// document.addEventListener('DOMContentLoaded', function () {
-//     document.querySelectorAll('.card-custom, .instructor-card, .stat-item').forEach(el => {
-//         observer.observe(el);
-//     });
-// });
+    window.addEventListener('scroll', function () {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        progressBar.style.width = scrolled + '%';
+    });
+});
+
+// Set active navigation on window load
+window.addEventListener('load', function () {
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+
+    // Remove active from all links
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+    });
+
+    // Find the matching link
+    let activeLink = null;
+
+    if (currentPage === '' || currentPage === 'index.html') {
+        activeLink = document.querySelectorAll('a[href="/"]')[1];
+    } else if (currentPage === 'sign_in.html') {
+        activeLink.classList.add('active');
+    } else {
+        activeLink = document.querySelector(`a[href*="${currentPage}"]`);
+    }
+
+    if (activeLink) {
+        activeLink.classList.add('active');
+    } else {
+    }
+});

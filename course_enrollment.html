@@ -1,0 +1,158 @@
+<!-- Course Enrollment Form -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AOI Academy</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="./assets/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="header"></div>
+
+    <div id="course-enrollment-page" class="page ">
+        <div class="page-header">
+            <div class="container">
+                <h1 class="page-title">Course Enrollment</h1>
+                <p class="page-subtitle">Fill out the form to enroll in your selected course</p>
+            </div>
+        </div>
+
+        <section class="section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="form-custom">
+                            <h3 class="text-primary-custom mb-4">Enrollment Information</h3>
+
+                            <!-- User Type Switch -->
+                            <div class="mb-4">
+                                <label class="form-label">Are you from inside or outside the AOI?</label>
+                                <div class="form-check form-switch d-flex align-items-end gap-2">
+                                    <input class="form-check-input" type="checkbox" id="userTypeSwitch"
+                                        onchange="toggleUserType()">
+                                    <label class="form-check-label" for="userTypeSwitch">
+                                        <span id="userTypeLabel">Inside AOI</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <form onsubmit="handleCourseEnrollment(event)">
+                                <div class="mb-3">
+                                    <label for="selectedCourse" class="form-label">Selected Course</label>
+                                    <input type="text" class="form-control" id="selectedCourse" readonly disabled>
+                                </div>
+
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="enrollFirstName" class="form-label">First Name</label>
+                                        <input type="text" class="form-control" id="enrollFirstName" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="enrollLastName" class="form-label">Last Name</label>
+                                        <input type="text" class="form-control" id="enrollLastName" required>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="enrollEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="enrollEmail" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="enrollPhone" class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control" id="enrollPhone" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="enrollId" class="form-label">ID Number</label>
+                                    <input type="text" class="form-control" id="enrollId" required>
+                                </div>
+
+                                <!-- Inside Company Fields -->
+                                <div id="insideCompanyFields">
+                                    <div class="mb-3">
+                                        <label for="fileNumber" class="form-label">File Number</label>
+                                        <input type="text" class="form-control" id="fileNumber" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="workSection" class="form-label">Work Section</label>
+                                        <select class="form-control" id="workSection" required>
+                                            <option value="">Select your section</option>
+                                            <option value="hr">Human Resources</option>
+                                            <option value="it">Information Technology</option>
+                                            <option value="finance">Finance</option>
+                                            <option value="marketing">Marketing</option>
+                                            <option value="operations">Operations</option>
+                                            <option value="sales">Sales</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Outside Company Fields -->
+                                <div id="outsideCompanyFields" class="hidden">
+                                    <div class="mb-3">
+                                        <label for="college" class="form-label">College/University</label>
+                                        <input type="text" class="form-control" id="college"
+                                            placeholder="Enter your college or university">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="direction" class="form-label">Field of Study/Direction</label>
+                                        <input type="text" class="form-control" id="direction"
+                                            placeholder="Enter your field of study or professional direction">
+                                    </div>
+                                </div>
+
+
+
+                                <div class="mb-3">
+                                    <label for="additionalNotes" class="form-label">Additional Notes (Optional)</label>
+                                    <textarea class="form-control" id="additionalNotes" rows="3"
+                                        placeholder="Any additional information or special requirements"></textarea>
+                                </div>
+
+                                <button type="submit" class="btn-card w-100">
+                                    Submit Enrollment <i class="fas fa-paper-plane ms-2"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="footer"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="./assets/main.js"></script>
+
+    <!-- // Get the course title from URL and set it in the input -->
+    <script>
+        // Function to get URL parameters
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+
+            return urlParams.get(name);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const courseTitle = getUrlParameter('courseTitle');
+
+            if (courseTitle) {
+                // Decode the URL-encoded string and set it in the input
+                const decodedTitle = decodeURIComponent(courseTitle);
+                document.getElementById('selectedCourse').value = decodedTitle;
+            }
+        });
+    </script>
+</body>
+
+</html>
