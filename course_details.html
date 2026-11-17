@@ -1,0 +1,357 @@
+<!-- Course Details Page -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AOI Academy</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="./assets/style.css" rel="stylesheet">
+    <style>
+        .cd-hero {
+            background: linear-gradient(135deg, var(--primary-color), #0a4a7a);
+            color: #fff;
+            padding: 3rem 0 4.5rem;
+        }
+
+        .cd-hero .breadcrumb a {
+            color: var(--tertiary-color);
+            text-decoration: none;
+        }
+
+        .cd-hero .breadcrumb-item.active,
+        .cd-hero .breadcrumb-item+.breadcrumb-item::before {
+            color: rgba(255, 255, 255, .7);
+        }
+
+        .cd-category {
+            background: var(--secondary-color);
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: .8rem;
+            padding: .3rem .8rem;
+            border-radius: 50px;
+            display: inline-block;
+        }
+
+        .cd-meta span {
+            margin-right: 1.25rem;
+            display: inline-block;
+            opacity: .9;
+        }
+
+        .cd-meta i {
+            color: var(--secondary-color);
+            margin-right: .4rem;
+        }
+
+        .cd-main {
+            margin-top: -3rem;
+        }
+
+        .cd-image {
+            width: 100%;
+            height: 340px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(2, 40, 69, .2);
+        }
+
+        .cd-panel {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .cd-panel h4 {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .cd-check li {
+            list-style: none;
+            padding: .35rem 0 .35rem 1.8rem;
+            position: relative;
+        }
+
+        .cd-check li::before {
+            content: "\f00c";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: #5a8a00;
+        }
+
+        .cd-bullets {
+            padding-left: 1.2rem;
+            margin: 0;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: var(--light-bg);
+            color: var(--primary-color);
+        }
+
+        .accordion-button:focus {
+            box-shadow: 0 0 0 .2rem rgba(90, 208, 255, .35);
+        }
+
+        .cd-week {
+            background: var(--primary-color);
+            color: #fff;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .8rem;
+            margin-right: .75rem;
+            flex-shrink: 0;
+        }
+
+        .cd-side {
+            position: sticky;
+            top: 90px;
+        }
+
+        .cd-price {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .cd-facts li {
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: .6rem 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: .93rem;
+        }
+
+        .cd-facts li span:first-child {
+            color: var(--light-text);
+        }
+
+        .cd-facts li span:last-child {
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .cd-related img {
+            height: 130px;
+            object-fit: cover;
+        }
+
+        .cd-mobile-bar {
+            display: none;
+        }
+
+        @media (max-width: 991.98px) {
+            .cd-side {
+                position: static;
+                margin-top: 1.5rem;
+            }
+
+            .cd-image {
+                height: 240px;
+            }
+
+            .cd-mobile-bar {
+                display: flex;
+                position: fixed;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 1030;
+                background: #fff;
+                border-top: 1px solid var(--border-color);
+                padding: .75rem 1rem;
+                align-items: center;
+                justify-content: space-between;
+                box-shadow: 0 -4px 12px rgba(0, 0, 0, .08);
+            }
+
+            body {
+                padding-bottom: 72px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header"></div>
+
+    <div id="course-root"></div>
+
+    <div id="footer"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="./assets/main.js"></script>
+    <script src="./assets/courses.js"></script>
+
+    <script>
+        const esc = s => String(s).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const id = new URLSearchParams(window.location.search).get('course');
+            const c = getCourseById(id);
+            const root = document.getElementById('course-root');
+
+            if (!c) {
+                root.innerHTML = `
+                    <div class="container text-center py-5 my-5">
+                        <i class="fas fa-search fa-3x text-primary-custom mb-3"></i>
+                        <h3>Course not found</h3>
+                        <p class="text-muted">The course you're looking for doesn't exist or was removed.</p>
+                        <a href="courses.html" class="btn btn-card">Browse all courses</a>
+                    </div>`;
+                return;
+            }
+
+            document.title = `${c.title} | AOI Academy`;
+            const enrollUrl = `course_enrollment.html?courseTitle=${encodeURIComponent(c.title)}`;
+            const related = coursesData.filter(x => x.id !== c.id && x.category !== undefined)
+                .sort((a, b) => (b.category === c.category) - (a.category === c.category)).slice(0, 3);
+
+            root.innerHTML = `
+            <section class="cd-hero">
+                <div class="container">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-3">
+                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item"><a href="courses.html">Courses</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">${esc(c.title)}</li>
+                        </ol>
+                    </nav>
+                    <span class="cd-category mb-3">${esc(c.category)}</span>
+                    <h1 class="fw-bold mt-2">${esc(c.title)}</h1>
+                    <p class="lead col-lg-8 px-0 opacity-75">${esc(c.description)}</p>
+                    <div class="cd-meta">
+                        <span><i class="fas fa-user-tie"></i>${esc(c.instructor)}</span>
+                        <span><i class="fas fa-clock"></i>${esc(c.duration)} · ${c.hours} hours</span>
+                        <span><i class="fas fa-signal"></i>${esc(c.level)}</span>
+                        <span><i class="fas fa-location-dot"></i>${esc(c.format)}</span>
+                    </div>
+                </div>
+            </section>
+
+            <div class="container cd-main pb-5">
+                <div class="row g-4">
+                    <div class="col-lg-8">
+                        <img class="cd-image" src="${c.image}" alt="${esc(c.title)}">
+
+                        <div class="cd-panel">
+                            <h4>What you'll learn</h4>
+                            <ul class="cd-check ps-0 mb-0 row">
+                                ${c.outcomes.map(o => `<li class="col-md-6">${esc(o)}</li>`).join('')}
+                            </ul>
+                        </div>
+
+                        <div class="cd-panel">
+                            <h4>Course curriculum</h4>
+                            <p class="text-muted small mb-3">${c.curriculum.length} modules · ${esc(c.duration)}</p>
+                            <div class="accordion" id="curriculum">
+                                ${c.curriculum.map((m, i) => `
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button ${i ? 'collapsed' : ''}" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#m${i}"
+                                            aria-expanded="${i ? 'false' : 'true'}" aria-controls="m${i}">
+                                            <span class="cd-week">${i + 1}</span>${esc(m.title)}
+                                        </button>
+                                    </h2>
+                                    <div id="m${i}" class="accordion-collapse collapse ${i ? '' : 'show'}" data-bs-parent="#curriculum">
+                                        <div class="accordion-body">
+                                            <ul class="cd-bullets">${m.topics.map(t => `<li>${esc(t)}</li>`).join('')}</ul>
+                                        </div>
+                                    </div>
+                                </div>`).join('')}
+                            </div>
+                        </div>
+
+                        <div class="cd-panel">
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <h4>Who it's for</h4>
+                                    <ul class="cd-check ps-0 mb-0">${c.audience.map(a => `<li>${esc(a)}</li>`).join('')}</ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <h4>Requirements</h4>
+                                    <ul class="cd-check ps-0 mb-0">${c.requirements.map(r => `<li>${esc(r)}</li>`).join('')}</ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cd-panel d-flex align-items-center gap-3">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center bg-primary-custom text-white flex-shrink-0"
+                                style="width:64px;height:64px;font-size:1.5rem;"><i class="fas fa-user-tie"></i></div>
+                            <div>
+                                <small class="text-muted">Your instructor</small>
+                                <h5 class="mb-0">${esc(c.instructor)}</h5>
+                                <span class="text-muted">${esc(c.instructorRole)}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="cd-side">
+                            <div class="cd-panel mt-0 shadow-sm">
+                                <div class="cd-price">$${c.price}</div>
+                                <small class="text-muted">One-time fee</small>
+                                <a href="${enrollUrl}" class="btn btn-card w-100 my-3">Enroll Now <i class="fas fa-arrow-right ms-2"></i></a>
+                                <ul class="cd-facts p-0 mb-0">
+                                    <li><span>Duration</span><span>${esc(c.duration)} (${c.hours} hrs)</span></li>
+                                    <li><span>Level</span><span>${esc(c.level)}</span></li>
+                                    <li><span>Format</span><span>${esc(c.format)}</span></li>
+                                    <li><span>Schedule</span><span>${esc(c.schedule)}</span></li>
+                                    <li><span>Start</span><span>${esc(c.startDate.replace('Next intake: ', ''))}</span></li>
+                                    <li><span>Certificate</span><span>${esc(c.certificate)}</span></li>
+                                </ul>
+                                <a href="contact.html" class="btn btn-outline-secondary w-100 mt-3">
+                                    <i class="fa-solid fa-comments me-2"></i>Have a question?
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 class="mt-5 mb-3 text-primary-custom fw-bold">You may also like</h4>
+                <div class="row g-4 cd-related">
+                    ${related.map(r => `
+                    <div class="col-md-4">
+                        <a href="course_details.html?course=${r.id}" class="text-decoration-none">
+                            <div class="card card-custom h-100">
+                                <img src="${r.image}" class="card-img-top" alt="${esc(r.title)}">
+                                <div class="card-body">
+                                    <h6 class="card-title">${esc(r.title)}</h6>
+                                    <div class="d-flex justify-content-between">
+                                        <span class="badge bg-primary-custom">${esc(r.duration)}</span>
+                                        <span class="text-primary-custom fw-bold">$${r.price}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>`).join('')}
+                </div>
+            </div>
+
+            <div class="cd-mobile-bar">
+                <div><div class="fw-bold fs-5 text-primary-custom">$${c.price}</div><small class="text-muted">${esc(c.duration)}</small></div>
+                <a href="${enrollUrl}" class="btn btn-card">Enroll Now</a>
+            </div>`;
+        });
+    </script>
+</body>
+
+</html>

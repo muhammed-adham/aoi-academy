@@ -328,13 +328,7 @@
         // Function to handle booking
         function handleBooking() {
             if (appState.currentRoom) {
-                const room = appState.currentRoom;
-                alert(`🏢 Booking Request Submitted!\n\n` +
-                    `Room: ${room.title}\n` +
-                    `Capacity: ${room.capacity} people\n` +
-                    `Price: $${room.price}/day\n` +
-                    `Category: ${room.category}\n\n` +
-                    `✅ Redirecting to booking system...`);
+                window.location.href = `booking.html?room=${encodeURIComponent(appState.currentRoom.title)}`;
             }
         }
 
@@ -366,14 +360,18 @@
             // Render initial rooms
             renderAvailableRooms();
 
-            // Load first room by default
-            if (appState.rooms.length > 0) {
-                updateMainRoom(appState.rooms[0]);
+            // Load the room from ?room=<id>, else the first room
+            const roomParam = parseInt(new URLSearchParams(window.location.search).get('room'));
+            const initialRoom = appState.rooms.find(r => r.id === roomParam) || appState.rooms[0];
+            if (initialRoom) {
+                updateMainRoom(initialRoom);
             }
 
             // Add event listeners for action buttons
             document.getElementById('book-now-btn').addEventListener('click', handleBooking);
-            document.getElementById('wishlist-btn').addEventListener('click', handleWishlist);
+            document.getElementById('wishlist-btn').addEventListener('click', function () {
+                window.location.href = 'contact.html';
+            });
             document.getElementById('share-btn').addEventListener('click', handleShare);
 
             // Keyboard navigation for gallery

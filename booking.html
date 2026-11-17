@@ -124,6 +124,12 @@
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="./assets/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const room = new URLSearchParams(window.location.search).get('room');
+            if (room) document.getElementById('selectedRoom').value = room;
+        });
+    </script>
 </body>
 
 </html>

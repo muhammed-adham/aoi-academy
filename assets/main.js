@@ -35,7 +35,7 @@ const translations = {
         // Featured courses
         featuredCourses: "Featured Courses",
         featuredCoursesSubtitle: "Discover our most popular and in-demand training programs",
-        enrollNow: "Enroll Now",
+        enrollNow: "View Details",
 
         // Course titles
         leadershipTitle: "Advanced Leadership Training",
@@ -265,10 +265,9 @@ function handleCTAClick(type, identifier) {
     // }
 
     if (type === 'course') {
-        window.location.href = `course_enrollment.html?courseTitle=${identifier}`;
+        window.location.href = `course_details.html?course=${encodeURIComponent(identifier)}`;
     } else if (type === 'room') {
-        window.location.href = `room_page.html?room=${identifier}`;
-
+        window.location.href = `room_page.html?room=${encodeURIComponent(identifier)}`;
     }
 }
 
