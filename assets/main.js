@@ -347,15 +347,33 @@ function handleSignUp(event) {
 // Handle course enrollment
 function handleCourseEnrollment(event) {
     event.preventDefault();
-    alert('Enrollment submitted successfully! We will contact you soon.');
-    showPage('home');
+    const val = id => (document.getElementById(id) || {}).value || '';
+    goToSuccess({
+        type: 'enrollment',
+        name: val('enrollFirstName'),
+        email: val('enrollEmail'),
+        item: val('selectedCourse')
+    });
 }
 
 // Handle room booking
 function handleRoomBooking(event) {
     event.preventDefault();
-    alert('Booking request submitted successfully! We will confirm availability and contact you soon.');
-    showPage('home');
+    const val = id => (document.getElementById(id) || {}).value || '';
+    goToSuccess({
+        type: 'booking',
+        name: val('bookingFirstName'),
+        email: val('bookingEmail'),
+        item: val('selectedRoom'),
+        date: val('bookingDate'),
+        time: val('bookingTime')
+    });
+}
+
+// Save submission summary (kept out of the URL for privacy) and open the success page
+function goToSuccess(data) {
+    try { sessionStorage.setItem('aoiSubmission', JSON.stringify(data)); } catch (e) { }
+    window.location.href = 'success.html';
 }
 
 // Logout

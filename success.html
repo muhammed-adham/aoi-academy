@@ -1,0 +1,179 @@
+<!-- Submission Success Page -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submitted Successfully | AOI Academy</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="./assets/style.css" rel="stylesheet">
+    <style>
+        .ok-wrap {
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            padding: 3rem 0;
+            background: var(--light-bg);
+        }
+
+        .ok-card {
+            max-width: 620px;
+            margin: 0 auto;
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(2, 40, 69, .08);
+        }
+
+        .ok-icon {
+            width: 88px;
+            height: 88px;
+            border-radius: 50%;
+            background: var(--secondary-color);
+            color: var(--primary-color);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin-bottom: 1.25rem;
+            animation: pop .5s cubic-bezier(.2, 1.4, .4, 1) both;
+        }
+
+        @keyframes pop {
+            from { transform: scale(.4); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .ok-icon { animation: none; }
+        }
+
+        .ok-card h1 {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.9rem;
+        }
+
+        .ok-summary {
+            background: var(--light-bg);
+            border-radius: 10px;
+            padding: .5rem 1.1rem;
+            margin: 1.5rem 0;
+            text-align: left;
+        }
+
+        .ok-summary div {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: .6rem 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: .95rem;
+        }
+
+        .ok-summary div:last-child { border-bottom: 0; }
+        .ok-summary span:first-child { color: var(--light-text); }
+        .ok-summary span:last-child { font-weight: 600; text-align: right; word-break: break-word; }
+
+        .ok-steps {
+            text-align: left;
+            padding: 0;
+            margin: 0 0 1.75rem;
+            list-style: none;
+        }
+
+        .ok-steps li {
+            display: flex;
+            gap: .85rem;
+            padding: .5rem 0;
+        }
+
+        .ok-steps i {
+            color: var(--primary-color);
+            background: rgba(90, 208, 255, .25);
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header"></div>
+
+    <main class="ok-wrap">
+        <div class="container section">
+            <div class="ok-card" id="ok-card" role="status" aria-live="polite"></div>
+        </div>
+    </main>
+
+    <div id="footer"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="./assets/main.js"></script>
+    <script>
+        const esc = s => String(s).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+
+        document.addEventListener('DOMContentLoaded', function () {
+            let d = null;
+            try { d = JSON.parse(sessionStorage.getItem('aoiSubmission')); } catch (e) { }
+            const card = document.getElementById('ok-card');
+
+            // Opened directly with nothing submitted
+            if (!d) {
+                card.innerHTML = `
+                    <div class="ok-icon" style="background:var(--light-bg)"><i class="fas fa-inbox"></i></div>
+                    <h1>Nothing submitted yet</h1>
+                    <p class="text-muted mb-4">There's no recent request to show. Browse our courses or rooms to get started.</p>
+                    <div class="d-flex flex-column flex-sm-row gap-2 justify-content-center">
+                        <a href="courses.html" class="btn btn-card">Browse Courses</a>
+                        <a href="index.html" class="btn btn-outline-secondary">Return Home</a>
+                    </div>`;
+                return;
+            }
+
+            const isBooking = d.type === 'booking';
+            const rows = [];
+            rows.push([isBooking ? 'Room / Lab' : 'Course', d.item || '—']);
+            if (isBooking && d.date) rows.push(['Requested date', d.date + (d.time ? ' at ' + d.time : '')]);
+            rows.push(['Confirmation sent to', d.email || '—']);
+
+            card.innerHTML = `
+                <div class="ok-icon"><i class="fas fa-check"></i></div>
+                <h1>${isBooking ? 'Booking request received!' : 'Enrollment submitted!'}</h1>
+                <p class="text-muted mb-0">
+                    ${d.name ? `Thank you, <b>${esc(d.name)}</b>. ` : ''}A confirmation email has been sent to
+                    <b>${esc(d.email || 'your inbox')}</b>.
+                </p>
+
+                <div class="ok-summary">
+                    ${rows.map(r => `<div><span>${r[0]}</span><span>${esc(r[1])}</span></div>`).join('')}
+                </div>
+
+                <h2 class="h6 text-start fw-bold text-primary-custom">What happens next</h2>
+                <ul class="ok-steps">
+                    <li><i class="fas fa-envelope"></i><span>Check your inbox for the confirmation (and your spam folder, just in case).</span></li>
+                    <li><i class="fas fa-phone"></i><span>Our team will contact you soon ${isBooking ? 'to confirm availability and details' : 'with your enrollment details and next steps'}.</span></li>
+                </ul>
+
+                <div class="d-flex flex-column flex-sm-row gap-2 justify-content-center">
+                    <a href="index.html" class="btn btn-card"><i class="fas fa-house me-2"></i>Return Home</a>
+                    <a href="${isBooking ? 'rooms.html' : 'courses.html'}" class="btn btn-outline-secondary">
+                        ${isBooking ? 'More rooms' : 'More courses'}
+                    </a>
+                </div>`;
+        });
+    </script>
+</body>
+
+</html>
