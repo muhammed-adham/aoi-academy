@@ -124,30 +124,34 @@ const translations = {
     }
 };
 
-// Language toggle function
-function toggleLanguage() {
-    const languageSwitch = document.getElementById('languageSwitch');
+// Apply a language to the page (direction, switch state, translated text)
+function applyLanguage(lang) {
+    currentLanguage = lang;
     const body = document.body;
-    const languageLabel = document.getElementById('languageLabel');
+    const languageSwitch = document.getElementById('languageSwitch');
+    const isAr = lang === 'ar';
 
-    if (languageSwitch.checked) {
-        currentLanguage = 'ar';
-        body.classList.add('rtl');
-        body.dir = 'rtl';
-        languageLabel.textContent = 'English';
-    } else {
-        currentLanguage = 'en';
-        body.classList.remove('rtl');
-        body.dir = 'ltr';
-        languageLabel.textContent = 'العربية';
-    }
+    body.classList.toggle('rtl', isAr);
+    body.dir = isAr ? 'rtl' : 'ltr';
+    document.documentElement.lang = lang;
+    if (languageSwitch) languageSwitch.checked = isAr;
 
     updatePageContent();
+}
+
+// Language toggle function (choice is remembered across pages)
+function toggleLanguage() {
+    const languageSwitch = document.getElementById('languageSwitch');
+    const lang = languageSwitch.checked ? 'ar' : 'en';
+    try { localStorage.setItem('lang', lang); } catch (e) { }
+    applyLanguage(lang);
 }
 
 // Update page content based on current language
 function updatePageContent() {
     const t = translations[currentLanguage];
+    // Not every page has every element, so each update is null-safe
+    const setText = (sel, text) => { const el = document.querySelector(sel); if (el) el.textContent = text; };
 
     // Update navigation
     const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
@@ -159,15 +163,17 @@ function updatePageContent() {
     });
 
     // Update auth buttons
-    document.querySelector('.auth-btn-text').textContent = t.signin;
-    document.querySelector('.profile-btn-text').textContent = t.profile;
-    document.querySelector('.logout-btn-text').textContent = t.logout;
+    setText('.auth-btn-text', t.signin);
+    setText('.profile-btn-text', t.profile);
+    setText('.logout-btn-text', t.logout);
 
     // Update hero section
-    document.querySelector('.hero h1').innerHTML = t.heroTitle;
-    document.querySelector('.hero p').textContent = t.heroSubtitle;
-    document.querySelector('.btn-primary-custom').innerHTML = `${t.exploreCourses}`;
-    document.querySelector('.btn-outline-custom').textContent = t.learnMore;
+    const heroTitle = document.querySelector('.hero h1');
+    if (heroTitle) heroTitle.innerHTML = t.heroTitle;
+    setText('.hero p', t.heroSubtitle);
+    const heroBtn = document.querySelector('.hero .btn-primary-custom');
+    if (heroBtn) heroBtn.innerHTML = `${t.exploreCourses}`;
+    setText('.hero .btn-outline-custom', t.learnMore);
 
     // Update stats
     const statLabels = document.querySelectorAll('.stat-label');
@@ -179,28 +185,10 @@ function updatePageContent() {
     });
 
     // Update featured courses section
-    document.querySelector('.section-title').textContent = t.featuredCourses;
-    document.querySelector('.section-subtitle').textContent = t.featuredCoursesSubtitle;
-
-    // Update course cards
-    const courseCards = document.querySelectorAll('#home-page .card-custom');
-    const courseData = [
-        { title: t.leadershipTitle, desc: t.leadershipDesc },
-        { title: t.dataAnalyticsTitle, desc: t.dataAnalyticsDesc },
-        { title: t.digitalMarketingTitle, desc: t.digitalMarketingDesc }
-    ];
-
-    courseCards.forEach((card, index) => {
-        if (courseData[index]) {
-            const title = card.querySelector('.card-title');
-            const desc = card.querySelector('.card-text');
-            const btn = card.querySelector('.btn-card');
-
-            if (title) title.textContent = courseData[index].title;
-            if (desc) desc.textContent = courseData[index].desc;
-            if (btn) btn.innerHTML = `${t.enrollNow} <i class="fas fa-arrow-right ms-1"></i>`;
-        }
-    });
+    if (document.getElementById('home-page')) {
+        setText('.section-title', t.featuredCourses);
+        setText('.section-subtitle', t.featuredCoursesSubtitle);
+    }
 
     // Update why choose us section
     const whyChooseTitle = document.querySelector('.section-title.text-start');
@@ -235,7 +223,7 @@ function updatePageContent() {
     });
 
     const footerTagline = document.querySelectorAll('.footer p');
-    footerTagline[0].textContent = t.tagline;
+    if (footerTagline[0]) footerTagline[0].textContent = t.tagline;
 
     // Update footer links
     const footerLinks = document.querySelectorAll('.footer ul li a');
@@ -425,21 +413,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Function to load components (header & footer) Run after DOM is ready
 document.addEventListener("DOMContentLoaded", function () {
-    // Load header
-    fetch("components/header.html")
+    // Load header & footer, then restore the language the visitor chose earlier
+    const loadInto = (id, url) => fetch(url)
         .then(response => response.text())
-        .then(data => {
-            document.getElementById("header").innerHTML = data;
-        })
-        .catch(error => console.error("Error loading header:", error));
+        .then(data => { const el = document.getElementById(id); if (el) el.innerHTML = data; })
+        .catch(error => console.error("Error loading " + id + ":", error));
 
-    // Load footer
-    fetch("components/footer.html")
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById("footer").innerHTML = data;
-        })
-        .catch(error => console.error("Error loading footer:", error));
+    Promise.all([loadInto("header", "components/header.html"), loadInto("footer", "components/footer.html")])
+        .then(() => {
+            let saved = 'en';
+            try { saved = localStorage.getItem('lang') === 'ar' ? 'ar' : 'en'; } catch (e) { }
+            if (saved === 'ar') applyLanguage('ar');
+        });
 
     // Add reading progress indicator
     const progressBar = document.createElement('div');

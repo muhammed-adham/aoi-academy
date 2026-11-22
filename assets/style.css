@@ -598,6 +598,85 @@
             border-color: var(--secondary-color);
         }
 
+        /* Language toggle - pill that matches the Sign In button */
+        .lang-toggle {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            direction: ltr; /* keep EN | عربي order in both languages */
+            margin: 0;
+            padding: 3px;
+            border: 1.5px solid rgba(255, 255, 255, 0.45);
+            border-radius: 50px;
+            cursor: pointer;
+            user-select: none;
+            transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .lang-toggle:hover {
+            border-color: var(--tertiary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(180, 225, 0, 0.2);
+        }
+
+        .lang-toggle-input {
+            position: absolute;
+            opacity: 0;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .lang-opt {
+            position: relative;
+            z-index: 1;
+            min-width: 3.1rem;
+            padding: 0.3rem 0.8rem;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+            line-height: 1.4;
+            color: rgba(255, 255, 255, 0.85);
+            transition: color 0.3s ease;
+        }
+
+        .lang-thumb {
+            position: absolute;
+            top: 3px;
+            bottom: 3px;
+            left: 3px;
+            width: calc(50% - 3px);
+            border-radius: 50px;
+            background: var(--secondary-color);
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        /* English active (default) */
+        .lang-toggle-input:not(:checked) ~ .lang-opt:nth-of-type(1),
+        /* Arabic active */
+        .lang-toggle-input:checked ~ .lang-opt:nth-of-type(2) {
+            color: var(--primary-color);
+        }
+
+        .lang-toggle-input:checked ~ .lang-thumb {
+            transform: translateX(100%);
+        }
+
+        .lang-toggle-input:focus-visible ~ .lang-thumb {
+            outline: 2px solid var(--tertiary-color);
+            outline-offset: 2px;
+        }
+
+        .lang-toggle:hover .lang-thumb {
+            background: var(--tertiary-color);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .lang-toggle, .lang-thumb, .lang-opt { transition: none; }
+        }
+
         /* RTL Support */
         .rtl {
             direction: rtl;
@@ -636,16 +715,6 @@
 
         .rtl .text-start {
             text-align: right !important;
-        }
-
-        /* .rtl .d-flex {
-            flex-direction: row-reverse;
-        } */
-
-        /* Language Switch */
-        .form-switch .form-check-input:checked {
-            background-color: var(--secondary-color);
-            border-color: var(--secondary-color);
         }
 
         #languageLabel {

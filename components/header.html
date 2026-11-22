@@ -50,13 +50,13 @@
                     </li>
                 </ul>
                 <div class="d-flex align-items-center flex-row-reverse gap-2">
-                    <div class="form-check form-switch d-flex align-items-center gap-2">
-                        <input class="form-check-input m-0" type="checkbox" id="languageSwitch"
-                            onchange="toggleLanguage()">
-                        <label class="form-check-label text-light" for="languageSwitch" id="languageLabel">
-                            العربية
-                        </label>
-                    </div>
+                    <label class="lang-toggle" for="languageSwitch" title="Switch language / تغيير اللغة">
+                        <input class="lang-toggle-input" type="checkbox" id="languageSwitch"
+                            aria-label="Switch language between English and Arabic" onchange="toggleLanguage()">
+                        <span class="lang-opt">EN</span>
+                        <span class="lang-opt">عربي</span>
+                        <span class="lang-thumb" aria-hidden="true"></span>
+                    </label>
                     <a href="/sign_in.html" class="btn btn-auth me-2" id="authBtn">
                         <span class="auth-btn-text">Sign In</span>
                     </a>
