@@ -1,0 +1,121 @@
+:root {
+
+  --primary-color: #022845;
+  --secondary-color: #b4e100;
+  --secondary-alt: #ac2513;
+  --tertiary-color: #5ad0ff;
+  --accent-color: #ac2513;
+  --light-bg: #f8fafc;
+  --white: #ffffff;
+  --dark-text: #1e293b;
+  --light-text: #64748b;
+  --border-color: #e2e8f0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Cairo";
+  line-height: 1.6;
+  color: var(--dark-text);
+  background-color: var(--white);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.page {
+  flex: 1;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.6s ease;
+}
+
+.rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+.rtl .me-2 {
+  margin-right: 0 !important;
+  margin-left: 0.5rem !important;
+}
+
+.rtl .me-3 {
+  margin-right: 0 !important;
+  margin-left: 1rem !important;
+}
+
+.rtl .ms-1 {
+  margin-left: 0 !important;
+  margin-right: 0.25rem !important;
+}
+
+.rtl .ms-2 {
+  margin-left: 0 !important;
+  margin-right: 0.5rem !important;
+}
+
+.rtl .text-start {
+  text-align: right !important;
+}
+
+.text-primary-custom {
+  color: var(--primary-color) !important;
+}
+
+.text-secondary-custom {
+  color: var(--secondary-color) !important;
+}
+
+.text-tertiary-custom {
+  color: var(--tertiary-color) !important;
+}
+
+.text-accent-custom {
+  color: var(--accent-color) !important;
+}
+
+.bg-primary-custom {
+  background-color: var(--primary-color) !important;
+}
+
+.bg-secondary-custom {
+  background-color: var(--secondary-color) !important;
+}
+
+.bg-tertiary-custom {
+  background-color: var(--tertiary-color) !important;
+}
+
+.bg-light-custom {
+  background-color: var(--light-bg) !important;
+}
+
+.hidden {
+  display: none;
+}
+
+main:focus {
+  outline: none;
+}

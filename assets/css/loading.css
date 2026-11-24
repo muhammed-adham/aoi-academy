@@ -1,0 +1,75 @@
+html.lang-loading body {
+  visibility: hidden;
+  animation: lang-reveal 0s 1.5s forwards;
+}
+
+html.lang-loading body::before {
+  content: "";
+  visibility: visible;
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 170'><style>@keyframes bob{0%{transform:translateY(0)}100%{transform:translateY(-7px)}}@keyframes swing{0%{transform:rotate(14deg)}100%{transform:rotate(-14deg)}}@keyframes flip{0%{transform:scaleX(1);opacity:1}38%{transform:scaleX(-1);opacity:1}39%{transform:scaleX(-1);opacity:0}100%{transform:scaleX(1);opacity:0}}@keyframes twinkle{0%,100%{opacity:.15;transform:scale(.5)}50%{opacity:1;transform:scale(1)}}.cap{animation:bob 1.4s ease-in-out infinite alternate}.tassel{transform-origin:150px 40px;animation:swing 1.4s ease-in-out infinite alternate}.pg{transform-origin:100px 125px;animation:flip 2.1s ease-in-out infinite}.p2{animation-delay:.7s}.p3{animation-delay:1.4s}.sp{transform-box:fill-box;transform-origin:center;animation:twinkle 1.8s ease-in-out infinite}.s2{animation-delay:.6s}.s3{animation-delay:1.2s}@media (prefers-reduced-motion:reduce){*{animation:none!important}}</style><g class='cap'><path d='M70 54v18c0 9 60 9 60 0V54' fill='%237f9f00'/><polygon points='100,20 156,42 100,64 44,42' fill='%23B4E100'/><polygon points='100,20 156,42 100,64 44,42' fill='none' stroke='%23d8ff3d' stroke-width='1.5' stroke-linejoin='round'/><circle cx='100' cy='42' r='3.5' fill='%237f9f00'/><g class='tassel'><line x1='150' y1='40' x2='150' y2='70' stroke='%23B4E100' stroke-width='2.5' stroke-linecap='round'/><circle cx='150' cy='73' r='4.5' fill='%23B4E100'/></g></g><path d='M26 108v42c24-6 50-6 74 0 24-6 50-6 74 0v-42z' fill='%230f5d94'/><path d='M100 146V104C80 97 52 97 34 104v42c18-6 46-6 66 0z' fill='%23fff'/><path d='M100 146V104c20-7 48-7 66 0v42c-18-6-46-6-66 0z' fill='%23e6edf4'/><g fill='%23c5d3e0'><rect x='46' y='112' width='40' height='3' rx='1.5'/><rect x='46' y='121' width='34' height='3' rx='1.5'/><rect x='46' y='130' width='38' height='3' rx='1.5'/></g><g><path class='pg' d='M100 146V104c20-7 48-7 66 0v42c-18-6-46-6-66 0z' fill='%23fff' stroke='%23d3dee9' stroke-width='1'/><path class='pg p2' d='M100 146V104c20-7 48-7 66 0v42c-18-6-46-6-66 0z' fill='%23fff' stroke='%23d3dee9' stroke-width='1'/><path class='pg p3' d='M100 146V104c20-7 48-7 66 0v42c-18-6-46-6-66 0z' fill='%23fff' stroke='%23d3dee9' stroke-width='1'/></g><g fill='%235AD0FF'><path class='sp' d='M28 50l2.5 6 6 2.5-6 2.5-2.5 6-2.5-6-6-2.5 6-2.5z'/><path class='sp s2' d='M172 62l2 5 5 2-5 2-2 5-2-5-5-2 5-2z'/><path class='sp s3' d='M168 14l2.2 5.4 5.4 2.2-5.4 2.2-2.2 5.4-2.2-5.4-5.4-2.2 5.4-2.2z' fill='%23B4E100'/></g></svg>") center 42% / 290px no-repeat,
+    radial-gradient(circle at 50% 40%, #0a4a7a 0%, #022845 70%);
+  animation: loader-out 0s 1.5s forwards;
+}
+
+html.lang-loading body::after {
+  content: "جاري التحميل…";
+  visibility: visible;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: calc(42% + 150px);
+  z-index: 100000;
+  text-align: center;
+  color: #fff;
+  font-family: "Cairo", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  animation: loader-text 1.6s ease-in-out infinite, loader-out 0s 1.5s forwards;
+}
+
+html.lang-loading::after {
+  content: "";
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 100000;
+  width: 40%;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #b4e100, transparent);
+  animation: loader-bar 1.2s ease-in-out infinite, loader-out 0s 1.5s forwards;
+}
+
+@keyframes lang-reveal {
+  to {
+    visibility: visible;
+  }
+}
+
+@keyframes loader-out {
+  to {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+
+@keyframes loader-text {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+
+@keyframes loader-bar {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(250%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.lang-loading body::after,
+  html.lang-loading::after {
+    animation: loader-out 0s 1.5s forwards;
+  }
+}

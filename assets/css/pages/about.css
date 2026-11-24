@@ -1,0 +1,96 @@
+.about-cards {
+    margin-top: 3rem;
+}
+
+.about-card {
+    position: relative;
+    height: 100%;
+    padding: 3.4rem 1.75rem 2rem;
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(2, 40, 69, 0.07);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about-card::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 1.75rem;
+    right: 1.75rem;
+    height: 4px;
+    border-radius: 0 0 6px 6px;
+
+    background: linear-gradient(90deg, var(--secondary-color));
+}
+
+.about-card::after {
+    content: attr(data-n);
+    position: absolute;
+    bottom: 0.6rem;
+    inset-inline-end: 1.1rem;
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1;
+    color: rgba(2, 40, 69, 0.045);
+    pointer-events: none;
+}
+
+.about-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 22px 45px rgba(2, 40, 69, 0.15);
+}
+
+.about-icon {
+    position: absolute;
+    top: -2.2rem;
+    left: 50%;
+    width: 70px;
+    height: 70px;
+    margin-left: -35px;
+    border-radius: 50%;
+    border: 4px solid var(--secondary-color);
+    background: linear-gradient(135deg, var(--primary-color), #0a4a7a);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    box-shadow: 0 8px 22px rgba(2, 40, 69, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.about-card:hover .about-icon {
+    transform: scale(1.1) rotate(-6deg);
+}
+
+.about-card-title {
+    position: relative;
+    margin-bottom: 1.4rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.about-card-title::after {
+    content: "";
+    display: block;
+    width: 38px;
+    height: 3px;
+    margin: 0.6rem auto 0;
+    border-radius: 3px;
+    background: var(--secondary-color);
+}
+
+.about-card-text {
+    margin: 0;
+    color: var(--light-text);
+    line-height: 1.75;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .about-card, .about-icon { transition: none; }
+    .about-card:hover { transform: none; }
+    .about-card:hover .about-icon { transform: none; }
+}

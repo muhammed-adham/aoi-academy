@@ -1,6 +1,7 @@
-// Single source of truth for course data (used by index, courses and course_details pages).
-// NOTE: level, format, schedule, outcomes, curriculum etc. are sample content - replace with real details.
-const coursesData = [
+import { dictionary } from '../js/core/i18n.js';
+import { coursesAr } from '../i18n/courses.ar.js';
+
+export const coursesData = [
     {
         id: 1,
         image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
@@ -195,6 +196,11 @@ const coursesData = [
     }
 ];
 
-function getCourseById(id) {
+export function getCourseById(id) {
     return coursesData.find(c => c.id === Number(id));
 }
+
+coursesData.forEach((course) => {
+  course.ar = coursesAr[course.id];
+  dictionary.addObject(course, course.ar);
+});
