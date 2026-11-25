@@ -359,6 +359,7 @@ const shared = {
   "Request Received": "تم استلام الطلب",
   "My Profile": "ملفي الشخصي",
   "Show more": "عرض المزيد",
+  "Back to top": "العودة إلى الأعلى",
   "Your account": "حسابك",
   "Signed in as": "تم تسجيل الدخول باسم",
   "You are not signed in": "لم تسجّل الدخول",
